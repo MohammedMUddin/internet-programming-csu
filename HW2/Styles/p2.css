@@ -1,0 +1,154 @@
+*{
+    margin: 0px;
+    font-family: "Verdana";
+    font-size: 22px;
+}
+
+/* All Tabs */
+
+.buttonContainer{
+    height: 15%;
+}
+.buttonContainer button{
+    height: 100%;
+    width: 20%;
+    float: left;
+    cursor: pointer;
+    padding: 10px;
+    font-family: "Verdana";
+    font-size: 18px;
+    background-color: #aee8e6;
+}
+.buttonContainer button:hover{
+    background-color: #aee0e0;
+}
+.tabPanel{
+    background-color: #aed8e6;
+    color: #000000;
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 50%;
+    box-sizing: border-box;
+    display: none;
+}
+
+/* Tab 1: Image Slider */
+
+#container{
+    margin: 0 auto;
+    margin-top: 20px;
+    position: relative;
+    width: 400px;
+}
+#slider{
+    border-style: solid;
+    overflow: hidden;
+    border-width: 10px;
+}
+#slider figure img{
+    float: left;
+    width: 600px;
+}
+#slider figure{
+    position: relative;
+    width: 1800px;
+    animation: slide 4s infinite;
+}
+@keyframes slide{
+  0%{
+    right: 0px;
+  }
+  10%{
+    right: 0px;
+  }
+  20%{
+    right: 0px;
+  }
+  30%{
+    right: 0px;
+  }
+  40%{
+    right: 600px;
+  }
+  50%{
+    right: 600px;
+  }
+  60%{
+    right: 600px;
+  }
+  70%{
+    right: 1200px;
+  }
+  80%{
+    right: 1200px;
+  }
+  90%{
+    right: 1200px;
+  }
+  100%{
+    right: 1200px;
+  }
+}
+
+/* Tab 2: IFrame */
+
+.box{
+    height: 50%;
+}
+.clear{
+    clear: both;
+}
+
+/* Tab 3: Class List */
+
+#classList{
+    text-align: justify;
+}
+
+/* Tab 4: Video Player */
+
+.hide{
+  opacity: 0;
+}
+.hide:hover{
+  opacity: 1;
+}
+
+/* Tab 5: Form */
+
+#formBox{
+    background-color: #aee8e6;
+    text-align: justify;
+}
+
+/* Tab 5: Animation */
+
+@-webkit-keyframes mini {
+    from {
+        left: 0%;
+    }
+    to{
+        left: 100%;
+    }
+}
+.frame1 {
+    -webkit-animation: mini 10s normal forwards;
+    -moz-animation: mini 50s normal forwards;
+    -o-animation: mini 50s normal forwards;
+    animation: mini 10s normal forwards;
+    opacity:1;
+}
+.mini {
+  background-image: url("https://www.csuohio.edu/sites/all/themes/csu/images/Seal-background.png");
+  position: absolute;
+  top: 75%;
+  width: 170px;
+  height: 150px;
+  z-index: 7;
+}
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}

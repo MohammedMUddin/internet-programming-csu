@@ -1,0 +1,5 @@
+> Fix dog slide animation 
+> Fix video player (with only html?) 
+> Include datepicker.html in the tabs list
+> Check checklist once before zipping it up
+> project 2 in my cis 408 html

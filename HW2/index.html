@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>CIS 408 Project 2, Problem 1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="Styles\p2.css" />
+</head>
+
+<body>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home">Home</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="CIS408News-tab" data-bs-toggle="tab" data-bs-target="#CIS408News">CIS 408 News</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="MyCourses-tab" data-bs-toggle="tab" data-bs-target="#MyCourses">MyCourses</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="VideoPlayer-tab" data-bs-toggle="tab" data-bs-target="#VideoPlayer">Video Player</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="AddToContactList-tab" data-bs-toggle="tab" data-bs-target="#AddToContactList">Add To Contact List</button>
+    </li>
+  </ul>
+  
+
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" >
+      <!--Tab 1: Info And Image Slider-->
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <img src="Images\myPic.jpg" style="width:50%">
+          </div>
+          <div class="col">
+            <p>
+              Name: Mohammed Uddin
+              <br>
+              <br>
+              ID: 2698086
+              <br>
+              <br>
+              Email: m.uddin16@vikes.csuohio.edu
+              <br>
+              <br>
+              Website Address: <a href="http://eecs.csuohio.edu/~mouddin">Mouddin</a>
+            </p>
+            </br>
+          </div>
+        </div>
+        <div class="col">
+          <div class="col">
+            <h3>Slider: </h3>
+          </div>
+          <div class="col">
+            <div class="slideshow-container">
+              <div class="mySlides">
+                <img src="Images\Dog.jpg" style="width:50%">
+              </div>
+              <div class="mySlides">
+                <img src="Images\Kitten.jpg" style="width:50%">
+              </div>
+              <div class="mySlides">
+                <img src="Images\Bunny.jpg" style="width:50%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="CIS408News" role="tabpanel">
+      <!--Tab 2: IFrames-->
+      <div class="box">
+        <iframe src="http://cis.csuohio.edu/~sschung/CIS408/CIS408.html" frameborder="0" scrolling="yes" width="50%" height="500px" align="left"> </iframe>
+      </div>
+      <div class="box">
+        <iframe src="http://eecs.csuohio.edu/~sschung/cis430/CIS430.html" frameborder="0" scrolling="yes" width="50%" height="500px" align="right"></iframe>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="MyCourses" role="tabpanel"div>
+      <!--Tab 3 Course List-->
+      <div id="container">
+        <h2>Spring 2021: </h2>
+        <br>
+        <div id="classList">
+          <ul>
+            <li><a href="MyCIS408.html">CIS 408 Internet Programming</a></li>
+            <li>EEC 383 Digital Systems</li>
+            <li>EEC 494 Senior Design II</li>
+            <li>CIS 492 Big Data</li>
+            <li>CIS 480 App Development</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="VideoPlayer" role="tabpanel"div>
+      <!--Tab 4: Video Player-->
+        <div class="hide">
+          <button id="test" onclick="play()">Play</button>
+          <button onclick="restart()">Restart |></button>
+          <button onclick="forward()">Forward >> 10s</button>
+          <button onclick="rewind()">Rewind << 10s</button>
+        </div>
+        <br>
+        <br>
+        <video id="videoPlayer" width=60%>
+          <source src="Images\toy.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="tab-pane fade" id="AddToContactList" role="tabpanel"div>
+      <!--Tab 5: Form And Animation-->
+      <form action="ServerScriptFile.html">
+        <br>
+        First Name
+        <br>
+        <input type="text" name="firstname" id="firstName">
+        <br>
+        <br>
+        Last Name
+        <br>
+        <input type="text" name="lastname" id="lastName">
+        <br>
+        <br>
+        Email
+        <br>
+        <input type="text" name="email" id="address">
+        <br>
+        <br>
+        <input type="submit" value="Submit" id="submit">
+        <br>
+        <span id="result"></span>
+        <div class="formBox">
+            <br>
+            Click the "Verify" button to display your contact info and the URL for where to send the form
+            data when the form above is submitted.
+            <br>
+            <br>
+            <button id="verify">Verify</button>
+            <br>
+        </div>
+        <div id="msg">
+          <pre></pre>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+<script type="text/javascript" src="Scripts\p2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
