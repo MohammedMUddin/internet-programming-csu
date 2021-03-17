@@ -1,35 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
   <head>
     <title>Lab 3</title>
-	<link rel="stylesheet" type="text/css" href="style.css" />
-    	<script type="text/javascript" src="script.js"></script>
-	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-  <style>
-  .tab { 
-      display: inline-block; 
-      margin-left: 40px; 
-  } 
-  </style>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="script.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+    </style>
   </head>
-
-<body>
-
-      <div class="dropdown">
-        <button onclick="dropdown()" class="dropbtn">INFO</button>
+  <body>
+    <div class="container">
+      <div class="dropdown" style="justify-self: center; padding-top: 10px;">
+        <button onclick="dropdown()" class="dropbtn">DROPDOWN</button>
         <div id="myDropdown" class="dropdown-content">
           <a onclick="restaurantName()">NAME</a>
           <a onclick="address()">ADDRESS</a>
           <a onclick="businesshours()">BUSINESS HOURS</a>
-          <a>MENU</a>
-          <a onclick="services()">SERVICES and FEATURES</a>
-     	  </div>
+          <a onclick="menu()">MENU</a>
+          <a onclick="services()">SERVICES AND FEATURES</a>
+        </div>
       </div>
-     
-    <div id="demo"></div>
-
-
+      <div>
+        <div id="name" class="hide"></div>
+        <div id="address" class="hide"></div>
+        <div id="businesshours" class="hide"></div>
+        <div id="services" class="hide"></div>
+        <div id="menu" class="hide"></div>
+      </div>
+    </div>   
   </body>
 </html>
