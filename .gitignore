@@ -45,6 +45,7 @@ $RECYCLE.BIN/
 Images/
 *.pdf
 *.zip
+.json
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,web
 

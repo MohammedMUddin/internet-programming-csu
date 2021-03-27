@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Lab 4</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm" style="padding-top: 10px;">
+          <button onclick="dropdown()" class="dropbtn">DROPDOWN</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a onclick="restaurantName()">NAME</a>
+            <a onclick="address()">ADDRESS</a>
+            <a onclick="businesshours()">BUSINESS HOURS</a>
+            <a onclick="menu()">MENU</a>
+            <a onclick="services()">SERVICES AND FEATURES</a>
+          </div>
+        </div>
+        <div class="col-sm" style="padding-top: 10px;">
+          <div id="name" class="hide"></div>
+          <div id="address" class="hide"></div>
+          <div id="businesshours" class="hide"></div>
+          <div id="services" class="hide"></div>
+          <div id="menu" ></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script>
+      /* variable jsonURL points to URL on eecs website */
+      var jsonURL = "http://eecs.csuohio.edu/~sschung/CIS408/YelpOneBusinessJsonData.json"
+
+      /* Loads JSON file when page loads*/
+      window.onload = function() {
+        fetchJSONFile();
+      }
+
+      /* fetches JSON file  and parses */
+      function fetchJSONFile() {
+        let request = new XMLHttpRequest();
+        request.addEventListener("load", function() {
+          jsonURL = JSON.parse(request.response);
+        });
+        request.open("GET", jsonURL);
+        request.send();
+      }
+
+      /*Code for dropdown menu*/
+      function dropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+
+      /* submenu dropdown */
+      function dropdown2() {
+        document.getElementById("myDropdown2").classList.toggle("show");
+      }
+
+      /*Name Tab*/
+      function restaurantName(){
+        var head = "<h3>Name</h3>"
+        document.getElementById("name").innerHTML = head + jsonURL.name;
+      }
+
+      /*Address Tab*/
+      function address(){
+        var head = "<h3>Address</h3>"
+        document.getElementById("address").innerHTML = head + jsonURL.full_address;
+      }
+
+      /*Hours Tab*/
+      function businesshours(){
+        var head = "<h3>Hours</h3>"
+        const hours = jsonURL["hours"]
+        var x = "" 
+        Object.keys(hours).forEach(function(prop) {
+        var days = hours[prop]
+        var timeArr = [""]
+        x += "<tr>" + "<td>" + prop + "</td>"
+        Object.keys(days).forEach(function(time) {
+          timeArr.unshift(days[time])
+        })
+        timeArr.forEach(function(rightTime) {
+          if (timeArr[0] === rightTime) {
+            x += "<td>" + rightTime + " AM - " + "</td>"  
+          } 
+          if (timeArr[1] === rightTime) {
+            var nightTime = parseInt(rightTime) - 12
+            x += "<td>" + nightTime + ":00 PM" +"</td>"
+          }
+        })
+        x += "</tr>"
+      })
+      document.getElementById("businesshours").innerHTML = head + "<table>" + x + "</table>";
+      }
+
+      function services(){
+        var head = "<h3>Service and Features</h3>"
+        var space = "<div> </div>"
+        document.getElementById("services").innerHTML = head + "Take-out: " + jsonURL.attributes["Take-out"] 
+        + space + "Accepts credit cards: " + jsonURL.attributes["Accepts Credit Cards"] 
+        + space + "Good for kids: " + jsonURL.attributes["Good for Kids"] 
+        + space + "Good for groups: " + jsonURL.attributes["Good For Groups"]
+        + space + "Price Range: " + jsonURL.attributes["Price Range"];
+      }
+
+      function menu(){
+        document.getElementById("menu").innerHTML = 
+        `       
+                <ul class="nav">
+                  <li class="nav-item"> 
+                    <a class="nav-link" onclick="loadBreakfast()" href="#">Breakfast</a> 
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" onclick="loadBrunch()" href="#">Brunch</a> 
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" onclick="loadLunch()" href="#">Lunch</a> 
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" onclick="loadDinner()" href="#">Dinner</a> 
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" onclick="loadDrinks()" href="#">Drinks</a> 
+                  </li>
+                </ul>
+                <div id="test"></div>`
+      }
+
+      /* Breakfast menu */
+      function loadBreakfast() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            breakfast(this);
+          }
+        };
+        xmlhttp.open("GET", "http://eecs.csuohio.edu/~sschung/CIS408/restaurant_menu.xml", true);
+        xmlhttp.send();
+      }
+
+      function breakfast(xml) {
+        var head = "<h3>Breakfast</h3>"
+        var space = "<div> </div>"
+        var i;
+        var xmlDoc = xml.responseXML;
+        var table="<tr><th></th><th></th></tr>";
+        var x = xmlDoc.getElementsByTagName("BREAKFAST");
+          for (i = 0; i <x.length; i++) {
+            table += "<tr><td>" + head +
+            x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+            "</td><td>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[1].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[2].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[2].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[3].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[3].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[4].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[4].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[5].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[5].childNodes[0].nodeValue +
+            "</td></tr>";
+          }
+            document.getElementById("test").innerHTML = table;
+      }
+
+      /* Brunch menu */
+      function loadBrunch() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            brunch(this);
+          }
+        };
+        xmlhttp.open("GET", "http://eecs.csuohio.edu/~sschung/CIS408/restaurant_menu.xml", true);
+        xmlhttp.send();
+      }
+
+      function brunch(xml) {
+        var head = "<h3>Brunch</h3>"
+        var space = "<div> </div>"
+        var i;
+        var xmlDoc = xml.responseXML;
+        var table="<tr><th></th><th></th></tr>";
+        var x = xmlDoc.getElementsByTagName("BRUNCH");
+          for (i = 0; i <x.length; i++) {
+            table += "<tr><td>" + head +
+            x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+            "</td><td>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[1].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[2].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[2].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[3].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[3].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[4].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[4].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[5].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[5].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[6].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[6].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[7].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[7].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[8].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[8].childNodes[0].nodeValue +
+            "</td></tr>";
+          }
+            document.getElementById("test").innerHTML = table;
+      }
+
+      /* Lunch menu */
+      function loadLunch() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            lunch(this);
+          }
+        };
+        xmlhttp.open("GET", "http://eecs.csuohio.edu/~sschung/CIS408/restaurant_menu.xml", true);
+        xmlhttp.send();
+      }
+
+      function lunch(xml) {
+        var head = "<h3>Lunch</h3>"
+        var space = "<div> </div>"
+        var i;
+        var xmlDoc = xml.responseXML;
+        var table="<tr><th></th><th></th></tr>";
+        var x = xmlDoc.getElementsByTagName("LUNCH");
+          for (i = 0; i <x.length; i++) {
+            table += "<tr><td>" + head +
+            x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+            "</td><td>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[1].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[2].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[2].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[3].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[3].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[4].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[4].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[5].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[5].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[6].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[6].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[7].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[7].childNodes[0].nodeValue +
+            "</td></tr>";
+          }
+            document.getElementById("test").innerHTML = table;
+      }
+
+      /* Dinner menu */
+      function loadDinner() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            dinner(this);
+          }
+        };
+        xmlhttp.open("GET", "http://eecs.csuohio.edu/~sschung/CIS408/restaurant_menu.xml", true);
+        xmlhttp.send();
+      }
+
+      function dinner(xml) {
+        var head = "<h3>Dinner</h3>"
+        var space = "<div> </div>"
+        var i;
+        var xmlDoc = xml.responseXML;
+        var table="<tr><th></th><th></th></tr>";
+        var x = xmlDoc.getElementsByTagName("DINNER");
+          for (i = 0; i <x.length; i++) {
+            table += "<tr><td>" + head +
+            x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+            "</td><td>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[1].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[2].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[2].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[3].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[3].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[4].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[4].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[5].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[5].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[6].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[6].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[7].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[7].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[8].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[8].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[9].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[9].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[10].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[10].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[11].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[11].childNodes[0].nodeValue +
+            "</td></tr>";
+          }
+            document.getElementById("test").innerHTML = table;
+      }
+
+      /* Drink menu */
+      function loadDrinks() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            drinks(this);
+          }
+        };
+        xmlhttp.open("GET", "http://eecs.csuohio.edu/~sschung/CIS408/restaurant_menu.xml", true);
+        xmlhttp.send();
+      }
+
+      function drinks(xml) {
+        var head = "<h3>Drinks</h3>"
+        var space = "<div> </div>"
+        var i;
+        var xmlDoc = xml.responseXML;
+        var table="<tr><th></th><th></th></tr>";
+        var x = xmlDoc.getElementsByTagName("DRINKS");
+          for (i = 0; i <x.length; i++) {
+            table += "<tr><td>" + head +
+            x[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue +
+            "</td><td>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[1].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[2].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[2].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[3].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[3].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[4].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[4].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[5].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[5].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("NAME")[6].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[6].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("SODA")[0].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[7].childNodes[0].nodeValue +
+            "</td></tr>" + space +
+            x[i].getElementsByTagName("SODA")[1].childNodes[0].nodeValue +
+            "</td></tr>" + " - $" +
+            x[i].getElementsByTagName("PRICE")[8].childNodes[0].nodeValue +
+            "</td></tr>";
+          }
+            document.getElementById("test").innerHTML = table;
+      }
+    </script>
+  </body>
+</html>
