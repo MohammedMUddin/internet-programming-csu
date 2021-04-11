@@ -2,6 +2,7 @@ const express  = require('express')
 const mysql  = require('mysql')
 
 const app = express()
+app.use(express.urlencoded()); 
 
 const connection = mysql.createConnection({
     host     : 'localhost',
@@ -18,9 +19,13 @@ connection.query('SELECT * FROM `course`', function (error, results, fields) {
   });
    
 
-app.get('/', (req, res) => {
+app.get('/hello', (req, res) => {
     res.send('Hello World!')
 })
+
+app.post('/myaction', function(req, res) {
+  res.send('You sent the name "' + req.body.query + '".');
+});
 
 app.listen('3000', () => {
     console.log('Server is running on 3000...')
