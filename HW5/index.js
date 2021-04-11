@@ -19,12 +19,15 @@ connection.connect()
 
 //grabbing form input and searching database for inputted data
 app.post('/', function(req, res) {
-  var sqlQuery =  `
-                  SELECT student_name 
+  var sqlQuery = `SELECT student_name 
                   FROM course 
                   WHERE student_name = '${req.body.query}'`
   connection.query(sqlQuery, function (error, results, fields) {
-    if (error) throw error
+    // this is not working
+    if (error) {
+      res.send('404 Not Found!')
+      throw error
+    }
     res.send('You sent the name "' + results[0].student_name + '".')
   });
 });
