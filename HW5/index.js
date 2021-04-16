@@ -21,7 +21,11 @@ connection.connect()
 app.post('/', function(req, res) {
   var sqlQuery = `SELECT * 
                   FROM cd_catalog 
-                  WHERE COUNTRY = '${req.body.query}'`
+                  WHERE TITLE = '${req.body.query}' OR 
+                  ARTIST = '${req.body.query}' OR
+                  COUNTRY = '${req.body.query}' OR
+                  PRICE = '${req.body.query}' OR
+                  YEAR = '${req.body.query}'`
   connection.query(sqlQuery, function (error, results, fields) {
     // this is not working
     if (error) {
@@ -31,7 +35,12 @@ app.post('/', function(req, res) {
     var output = ''
     for (const eachResult in results) {
       // console.log(`${eachResult}: ${results[eachResult].TITLE}`);
-      output += `<h3>${results[eachResult].TITLE}</h3><br/>`
+      output += `<h3>${results[eachResult].TITLE}</h3>
+                 <p>${results[eachResult].ARTIST}</p>
+                 <p>${results[eachResult].COUNTRY}</p>
+                 <p>${results[eachResult].COMPANY}</p>
+                 <p>${results[eachResult].PRICE}</p>
+                 <p>${results[eachResult].YEAR}</p><br/>`
     }
     res.send(output)
   });
@@ -46,10 +55,11 @@ app.listen('3000', () => {
 
 /*
 TODO
-4. complete output for all different queries
+
 ----------------------------------------
 COMPLTED
 1. Make Search query through database
 2. insert Input XML into Database
 3. front end -- serverside rendering
+4. complete output for all different queries
 */
