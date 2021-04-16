@@ -19,16 +19,17 @@ connection.connect()
 
 //grabbing form input and searching database for inputted data
 app.post('/', function(req, res) {
-  var sqlQuery = `SELECT student_name 
-                  FROM course 
-                  WHERE student_name = '${req.body.query}'`
+  var sqlQuery = `SELECT * 
+                  FROM cd_catalog 
+                  WHERE COUNTRY = '${req.body.query}'`
   connection.query(sqlQuery, function (error, results, fields) {
     // this is not working
     if (error) {
       res.send('404 Not Found!')
       throw error
     }
-    res.send('You sent the name "' + results[0].student_name + '".')
+    console.log(results)
+    // res.send('You sent the name "' + results[0].country + '".')
   });
 });
 
@@ -37,9 +38,13 @@ app.listen('3000', () => {
     console.log('Server is running on 3000...')
 })
 
+
+
 /*
 TODO
+3. front end -- serverside rendering
+----------------------------------------
+COMPLTED
 1. Make Search query through database
 2. insert Input XML into Database
-3. Restructure output to html or ejs?
 */
