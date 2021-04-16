@@ -28,8 +28,12 @@ app.post('/', function(req, res) {
       res.send('404 Not Found!')
       throw error
     }
-    console.log(results)
-    // res.send('You sent the name "' + results[0].country + '".')
+    var output = ''
+    for (const eachResult in results) {
+      // console.log(`${eachResult}: ${results[eachResult].TITLE}`);
+      output += `<h3>${results[eachResult].TITLE}</h3><br/>`
+    }
+    res.send(output)
   });
 });
 
@@ -42,9 +46,10 @@ app.listen('3000', () => {
 
 /*
 TODO
-3. front end -- serverside rendering
+4. complete output for all different queries
 ----------------------------------------
 COMPLTED
 1. Make Search query through database
 2. insert Input XML into Database
+3. front end -- serverside rendering
 */
