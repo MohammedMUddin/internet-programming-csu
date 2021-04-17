@@ -1,6 +1,8 @@
 // importing packages
 const express  = require('express')
 const mysql  = require('mysql')
+const path = require('path');
+
 
 // initializing express object 
 const app = express()
@@ -16,6 +18,7 @@ const connection = mysql.createConnection({
     database : 'hw5'
   });  
 connection.connect()
+
 
 //grabbing form input and searching database for inputted data
 app.post('/', function(req, res) {
